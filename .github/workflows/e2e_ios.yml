@@ -1,0 +1,37 @@
+name: E2E (iOS)
+
+on: [push]
+
+jobs:
+  build:
+    name: E2E (iOS)
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+
+      - name: Install Yarn Dependencies
+        run: yarn install
+
+      - name: Install Pod Dependencies
+        run: cd ./ios && pod install && cd ..
+
+      - name: Install Detox Dependencies
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+          npm install detox-cli --global
+
+      - name: Run Unit Test(s)
+        run: yarn test
+
+      - name: Run Detox Build
+        run: detox build --configuration ios.sim.debug
+
+      - name: Run Detox Test(s)
+        run: yarn start & detox test --configuration ios.sim.debug
