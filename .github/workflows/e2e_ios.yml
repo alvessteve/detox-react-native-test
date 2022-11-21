@@ -27,9 +27,6 @@ jobs:
           brew install applesimutils
           npm install detox-cli --global
 
-      - name: Run Unit Test(s)
-        run: yarn test
-
       - name: Run Detox Build
         run: detox build --configuration ios.sim.debug
 
