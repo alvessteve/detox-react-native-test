@@ -19,7 +19,11 @@ jobs:
         run: yarn install
 
       - name: Install Pod Dependencies
-        run: cd ./ios && pod install && cd ..
+        run: | 
+          cd ./ios 
+          pod deintegrate 
+          pod install 
+          cd ..
 
       - name: Install Detox Dependencies
         run: |
